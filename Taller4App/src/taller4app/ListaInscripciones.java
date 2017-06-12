@@ -1,0 +1,20 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package taller4app;
+
+/**
+ *
+ * @author favya
+ */
+public class ListaInscripciones {
+    
+    private NodoInscripcion first;
+    private NodoInscripcion last;
+    
+    
+    
+    
+}
