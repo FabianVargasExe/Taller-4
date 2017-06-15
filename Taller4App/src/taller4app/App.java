@@ -22,7 +22,7 @@ public class App implements IApp {
     
     private ListaInscripciones listaInscripciones;
     private ListaMensajes listaMensajes;
-
+    private LinkedList listaAsignaturas;
     private ListaPersonas listaPersonas;
     
 
@@ -30,7 +30,7 @@ public class App implements IApp {
         
         listaPersonas = new ListaPersonas();
         listaInscripciones = new ListaInscripciones();
-        LinkedList listaAsignaturas = new LinkedList();
+        listaAsignaturas = new LinkedList();
         
     }
     
