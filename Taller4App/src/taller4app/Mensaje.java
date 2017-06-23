@@ -17,6 +17,7 @@ public class Mensaje {
     private String Destinatario;
     private String Fecha;
     private String hora;
+    
 
     public Mensaje(String Asunto, String Mensaje, String Emisor, String Destinatario, String Fecha, String hora) {
         this.Asunto = Asunto;

@@ -13,7 +13,23 @@ public class ListaPersonas {
         this.first = null;
         this.last = null;
     }
-      
+
+    public NodoPersona getFirst() {
+        return first;
+    }
+
+    public void setFirst(NodoPersona first) {
+        this.first = first;
+    }
+
+    public NodoPersona getLast() {
+        return last;
+    }
+
+    public void setLast(NodoPersona last) {
+        this.last = last;
+    }
+       
     public void insertarOrdenado(Persona persona){
             
             NodoPersona nuevo = new NodoPersona(persona);
@@ -45,7 +61,42 @@ public class ListaPersonas {
                 }
             last = nuevo;
         }
+    }
+        
+    public void ingresaAlumno(String rut, String nombre, String apellido, String correo, String Alias, int da1, int da2){
+    Persona a = new Alumno(rut, nombre, apellido, correo, Alias, da1, da2);
+    this.insertarOrdenado(a);
+    }
     
+    public void ingresaProfesor(String rut, String nombre, String apellido, String correo, String Alias, int da1, int da2){
+    Persona p = new Profesor(rut, nombre, apellido, correo, Alias, da1, da2);
+    this.insertarOrdenado(p);
+    }
+    
+    public boolean buscar(String a) { 
+        NodoPersona curr = first;
+        
+        while(curr != null && !curr.persona.getAlias().equals(a)) {
+            curr = curr.getNext();
+        }
+        if( curr != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+     public NodoPersona buscarI(String a) { 
+        NodoPersona curr = first;
+        
+        while(curr != null && !curr.persona.getAlias().equals(a)) {
+            curr = curr.getNext();
+        }
+        if( curr != null) {
+            return curr;
+        } else {
+            return null;
+        }
     }
     
     public boolean eliminar(String alias){
@@ -68,6 +119,7 @@ public class ListaPersonas {
         }
         return false;
     }    
-    
+     
+
     
 }

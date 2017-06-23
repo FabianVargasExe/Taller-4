@@ -8,7 +8,7 @@ public class Profesor extends Persona{
     private int CantMsjRecibidos;
     private int CantMsjEnviados;
 
-    public Profesor(int CantMsjRecibidos, int CantMsjEnviados, String rut, String nombre, String apellido, String correo, String Alias) {
+    public Profesor(String rut, String nombre, String apellido, String correo, String Alias, int CantMsjRecibidos, int CantMsjEnviados) {
         super(rut, nombre, apellido, correo, Alias);
         this.CantMsjRecibidos = CantMsjRecibidos;
         this.CantMsjEnviados = CantMsjEnviados;

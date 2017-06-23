@@ -33,6 +33,15 @@ public class NodoPersona {
 
     public void setPrev(NodoPersona prev) {
         this.prev = prev;
-    } 
+    }
+    
+    public double CalcularNota(int CantMsjRecibidos, int CantMsjEnviados){
+        float X = ((CantMsjEnviados)/(CantMsjRecibidos))*100;
+        if(X<33){
+        return 2.5;}
+        if(X>66){
+        return 7.0;}
+        else{return 5.0;}  
+    }
     
 }

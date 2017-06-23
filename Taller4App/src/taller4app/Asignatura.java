@@ -1,33 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+
 package taller4app;
 
-/**
- *
- * @author favya
- */
+
 public class Asignatura {
     
-    private int Codigo;
+    private String Codigo;
     private String Nombre;
     private int CantidadPersonas;
     private ListaPersonas listaPersonas;
 
-    public Asignatura(int Codigo, String Nombre, int CantidadPersonas) {
+    public Asignatura(String Codigo, String Nombre, int CantidadPersonas) {
         this.Codigo = Codigo;
         this.Nombre = Nombre;
         this.CantidadPersonas = CantidadPersonas;
         listaPersonas = new ListaPersonas();
     }
 
-    public int getCodigo() {
+    public String getCodigo() {
         return Codigo;
     }
 
-    public void setCodigo(int Codigo) {
+    public void setCodigo(String Codigo) {
         this.Codigo = Codigo;
     }
 

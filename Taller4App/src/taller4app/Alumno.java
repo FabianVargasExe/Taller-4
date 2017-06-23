@@ -15,7 +15,7 @@ public class Alumno extends Persona{
     private int CantMsjEnviadosProfe;
     
 
-    public Alumno(int CantAsignaturas, int CantMsjEnviadosProfe, String rut, String nombre, String apellido, String correo, String Alias) {
+    public Alumno(String rut, String nombre, String apellido, String correo, String Alias, int CantAsignaturas, int CantMsjEnviadosProfe ) {
         super(rut, nombre, apellido, correo, Alias);
         this.CantAsignaturas = CantAsignaturas;
         this.CantMsjEnviadosProfe = CantMsjEnviadosProfe;
@@ -36,6 +36,16 @@ public class Alumno extends Persona{
 
     public void setCantMsjEnviadosProfe(int CantMsjEnviadosProfe) {
         this.CantMsjEnviadosProfe = CantMsjEnviadosProfe;
+    }
+    
+    public double CalcularNota(int CantAsignaturas, int CantMsjEnviadosProfe){
+        int X = (CantMsjEnviadosProfe)/(CantAsignaturas);
+        double nota = 0.0;
+        if(X<5){
+        return 2.5;}
+        if(X>10){
+        return 7.0;}
+        else{return 5.0;}
     }
     
 
