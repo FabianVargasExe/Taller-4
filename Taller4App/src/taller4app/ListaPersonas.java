@@ -34,8 +34,7 @@ public class ListaPersonas {
             
             NodoPersona nuevo = new NodoPersona(persona);
             NodoPersona aux = first;
-            // si es mas chico avanza si se inserta un Z palabra mas grande es lo mismo
-            // que insertarla a final
+
             while(aux != null && aux.getPersona().getNombre().compareTo(persona.getNombre()) < 0){
                aux = aux.getNext();     
             }
@@ -43,12 +42,11 @@ public class ListaPersonas {
                 NodoPersona ant = aux.getPrev();
                 if (aux == first){
                     first = nuevo;
-                   /* aux.setPrev(nuevo);
-                    nuevo.setNext(aux);  */    
+
                 }else{
                 ant.setNext(nuevo);
                 nuevo.setPrev(ant);
-            //    aux.setPrev(nuevo);
+
                 }
 
             }else{
@@ -75,8 +73,8 @@ public class ListaPersonas {
     
     public boolean buscar(String a) { 
         NodoPersona curr = first;
-        
-        while(curr != null && !curr.persona.getAlias().equals(a)) {
+       
+        while(curr != null && !curr.getPersona().getAlias().equals(a)) {
             curr = curr.getNext();
         }
         if( curr != null) {
@@ -86,18 +84,31 @@ public class ListaPersonas {
         }
     }
     
-     public NodoPersona buscarI(String a) { 
+     public Persona buscarI(String a) { 
         NodoPersona curr = first;
         
-        while(curr != null && !curr.persona.getAlias().equals(a)) {
+        while(curr != null && !curr.getPersona().getAlias().equals(a)) {
             curr = curr.getNext();
         }
         if( curr != null) {
-            return curr;
-        } else {
-            return null;
+            return curr.getPersona();
+        } 
+        else{
+        return null;
         }
-    }
+        
+    }   
+     
+    public void insertarPrincipio(Persona p ) { 
+        NodoPersona curr = new NodoPersona (p);
+        if( first == null ) {
+            last = curr;
+        } else {
+            first.setPrev(curr);
+        }
+        curr.setNext(first);
+        first = curr;
+    }     
     
     public boolean eliminar(String alias){
         NodoPersona aux = first;

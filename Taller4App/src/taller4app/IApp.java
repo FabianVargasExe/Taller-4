@@ -12,9 +12,9 @@ package taller4app;
 public interface IApp {
     
 
-    public void leerInscripciones();
     public void leerAsignaturas();
     public void leerPersonas();
+    public void leerInscripciones();
     public void RF1();
     public void RF2();
     public void RF3();

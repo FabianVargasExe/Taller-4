@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -41,38 +40,7 @@ public class App implements IApp {
     }
 
    // Método de lectura de los archivos .txt
-    @Override        
-    public void leerInscripciones() {
-             
-        try {
-            ArchivoEntrada in = new ArchivoEntrada("inscripciones.txt");
-            while(!in.isEndFile()){
-                Registro reg = in.getRegistro();
-                
-                String Alias = reg.getString();
-                String CodigoA = reg.getString();
-                
-                Inscripcion i = new Inscripcion(Alias,CodigoA);
-                
-                listaInscripciones.ingresar(i);  
-                NodoPersona p = listaPersonas.buscarI(Alias);
-              
-                
-                Iterator ite = listaAsignaturas.iterator();
-             /*   while(ite.hasNext()){
-                    Asignatura cosa = (Asignatura) ite;
-                    if(CodigoA.equals(cosa.getCodigo())){
-                        cosa.getListaPersonas().insertarOrdenado(p.persona);                        
-                    }   
-                }*/
-                    
-                }
-     
-        } catch (IOException ex) {
-            System.out.println("No se pudo leer el archivo");
-        }
 
-    }
     
     @Override 
     public void leerAsignaturas() {
@@ -86,7 +54,6 @@ public class App implements IApp {
             
             while((linea=br.readLine())!=null){
                 
-                int ValidadorIngreso = 0;
                 String[] campos = linea.split("\\.");
    
                 String Cod = campos[0];
@@ -97,21 +64,15 @@ public class App implements IApp {
 
                 if (!Cod.matches("[0-9]*")){
                     registroErrores.add(new RegistroError("Asignatura","codigo",Cod,"2"));
-                    ValidadorIngreso++;     
                 } else {               
-                    listaAsignaturas.add(a); 
-                    
-                }
-                
-            }
-            
-            
+                    listaAsignaturas.add(a);                  
+                } 
+            } 
         } catch (IOException ex) {
             System.out.println("No se pudo leer el archivo");
         }
    } 
-   
-   
+     
     @Override 
     public void leerPersonas() {
        
@@ -138,113 +99,98 @@ public class App implements IApp {
                 int n = Correo.indexOf("@");
                 String Alias =  Correo.substring(0,n); 
 
-                /*
-                * Verificación Datos
-                * Solo se ingresara si
-                */
+
+                // Verificación Datos
                 
                 // entrega el digito codificador 
                 String ultimoCaracter = Rut.substring(Rut.length()-1);
-                
+ 
                 // entrega una cadena a partir de @
                 
                 String Dominio =  Correo.substring(0,n);
                 
                 // Entrega el rut sin el digito verificador
                 String RutSinDigito = Rut.substring(0, Rut.length()-2);
-                                       
+                   
               //  Long.parseLong(Dominio);
                 
                 // si esta bien se ingresa
                 
-                // Validador Rut, si no coincide se ingresa a la lista de registro de errores
-
-                // verificar primero la wea de que sean solo numeros
-/*                if (!validarRut(RutSinDigito,ultimoCaracter)){
+                // verificar primero de que sean solo numeros
+                if ((!RutSinDigito.matches("[0-9]+"))||(!ultimoCaracter.matches("[0-9]+"))){
                     registroErrores.add(new RegistroError("Persona","Rut",Rut,"1"));
                     ValidadorIngreso++;
-                }*/
+                }
                      
                 // Validador Dominio Mail, si no coincide se ingresa a la lista de registro de errores
-                
-             /*   if (!Dominio.equals("@gmail.com")){
-    
+             
+             String auxm = Correo;
+             String[] pars = auxm.split("@");
+             auxm = (pars[0].trim()).substring(0, 1);  
+             if ((!Correo.matches("[-\\w\\.]+@gmail.com"))||(auxm.matches("[0-9]+"))){
                     registroErrores.add(new RegistroError("Persona","Correo",Correo,"3"));
                     ValidadorIngreso++;
-                }   */            
-
-              //  if (ValidadorIngreso == 0){
-                    
-                   if(Estudio.equals("alumno")){
-                   Alumno alumno = new Alumno(Rut, Nombre, Apellido, Correo, Alias, Dato1, Dato2);
-                        StdOut.println(Rut+Nombre+Apellido+Correo+Alias+Dato1+Dato2);
-                        alumno.setAlias(Alias);
-                        listaPersonas.insertarOrdenado(alumno);
-                   }
-                   if(Estudio.equals("profesor")){
-                   Profesor profesor = new Profesor(Rut, Nombre, Apellido, Correo, Alias, Dato1, Dato2);
-                        StdOut.println(Rut+Nombre+Apellido+Correo+Alias+Dato1+Dato2);
-                        profesor.setAlias(Alias);
-                        listaPersonas.insertarOrdenado(profesor); 
-                   }
-              //  }
-                           
-            }
-
-            
+                }          
+             
+             //Validador nombre
+             if(!Nombre.matches(".*[a-zA-Z]+.*[a-zA-Z]")){
+             registroErrores.add(new RegistroError("Persona","Nombre",Nombre,"6"));
+                ValidadorIngreso++;}
+             
+             //Validador apellido
+             if(!Apellido.matches(".*[a-zA-Z]+.*[a-zA-Z]")){
+             registroErrores.add(new RegistroError("Persona","Apellido",Apellido,"7"));
+             ValidadorIngreso++;}
+             
+             if(ValidadorIngreso == 0){
+                if(Estudio.equals("alumno")){
+                Alumno alumno = new Alumno(Rut, Nombre, Apellido, Correo, Alias, Dato1, Dato2);
+                StdOut.println(Rut+Nombre+Apellido+Correo+Alias+Dato1+Dato2);
+                alumno.setAlias(Alias);
+                listaPersonas.insertarOrdenado(alumno);
+                }
+             if(Estudio.equals("profesor")){
+                 Profesor profesor = new Profesor(Rut, Nombre, Apellido, Correo, Alias, Dato1, Dato2);
+                 StdOut.println(Rut+Nombre+Apellido+Correo+Alias+Dato1+Dato2);
+                 profesor.setAlias(Alias);
+                 listaPersonas.insertarOrdenado(profesor); 
+                 }
+            }             
+          }
         } catch (IOException ex) {
             System.out.println("No se pudo leer el archivo");
         }       
-   
-   }    
-   
-  public static boolean validarRut(String vrut, String vverificador) 
-      { 
-          boolean flag = false; 
-          String rut = vrut.trim(); 
-
-          String posibleVerificador = vverificador.trim(); 
-          int cantidad = rut.length(); 
-          int factor = 2; 
-          int suma = 0; 
-          String verificador = ""; 
-
-          for(int i = cantidad; i > 0; i--) 
-          { 
-              if(factor > 7) 
-              { 
-                  factor = 2; 
-              } 
-              suma += (Integer.parseInt(rut.substring((i-1), i)))* factor; 
-              factor++; 
-
-          } 
-          verificador = String.valueOf(11 - suma%11); 
-          if(verificador.equals(posibleVerificador)) 
-          { 
-              flag = true; 
-          } 
-          else 
-          { 
-              if((verificador.equals("10")) && (posibleVerificador.toLowerCase().equals("k"))) 
-              { 
-                  flag = true; 
-              } 
-              else 
-              { 
-                  if((verificador.equals("11") && posibleVerificador.equals("0"))) 
-                  { 
-                      flag = true; 
-                  } 
-                  else 
-                  { 
-                      flag = false; 
-                  } 
-              } 
-          } 
-          return flag;         
-      }  
-   
+   } 
+    
+        @Override        
+   public void leerInscripciones() {
+             
+        try {
+            ArchivoEntrada in = new ArchivoEntrada("inscripciones.txt");
+            while(!in.isEndFile()){
+                Registro reg = in.getRegistro();
+                
+                String Alias = reg.getString();
+                String CodigoA = reg.getString();
+                
+                Inscripcion i = new Inscripcion(Alias,CodigoA);
+                Iterator ite = listaAsignaturas.iterator();
+                Persona p = listaPersonas.buscarI(Alias);
+                listaInscripciones.ingresar(i);  
+                // asociar Asginaturas con personas
+                 while(ite.hasNext()){
+                    Asignatura Asig = (Asignatura) ite.next();
+                    if(Asig.getCodigo().equals(CodigoA)){
+                        Asig.getListaPersonas().insertarPrincipio(p);                        
+                    }  
+                   }
+                }
+     
+        } catch (IOException ex) {
+            System.out.println("No se pudo leer el archivo");
+        }
+    }
+ 
    // Errores de Registro 
    @Override 
    public void RF1() {
@@ -266,7 +212,7 @@ public class App implements IApp {
          Iterator ite = registroErrores.iterator();  
          while(ite.hasNext()){
              
-            RegistroError re = (RegistroError) ite;
+            RegistroError re = (RegistroError) ite.next();
           
             pw.print(re.getCategoria() + "        ");
             pw.print(re.getCampo() + "        ");
@@ -297,20 +243,18 @@ public class App implements IApp {
        
        StdOut.println("Ingrese código de la asignatura para mostrar sus datos: ");
        StdOut.println("---------------------");
-       int cod = StdIn.readInt();
+       String cod = StdIn.readString();
        
-       NodoInscripcion actual = listaInscripciones.getFirst();
-       while(actual!= null ){ 
-                     
-           if(actual.getInscripcion().getCodigoAsig().equals(cod)){
-               
-               String alias = actual.getInscripcion().getAlias();
-               NodoPersona personaAsig = listaPersonas.getFirst();
-               
-               while(personaAsig != null){
-                       
-                    if(personaAsig.persona.getAlias().equals(alias)){
-                      
+       // se recorre la lista de asignaturas hasta que concida el codigo dado
+       Iterator ite = listaAsignaturas.iterator();
+        while(ite.hasNext()){
+             Asignatura a = (Asignatura) ite.next();
+             if(a.getCodigo().equals(cod));{
+            
+                   // Se accede a la lista particular de personas de una asignatura
+                   NodoPersona personaAsig = a.getListaPersonas().getFirst();
+                   while(personaAsig != null){
+
                        StdOut.println(" Nombre: " + personaAsig.persona.getNombre());
                        StdOut.println(" Apellido: " + personaAsig.persona.getApellido());
                        StdOut.println(" Rut: " + personaAsig.persona.getRut());
@@ -323,23 +267,21 @@ public class App implements IApp {
                            
                           StdOut.println(" Cantidad Mensajes enviados: " +alum.getCantMsjEnviadosProfe());
                           StdOut.println(" Cantidad Asignaturas: " + alum.getCantAsignaturas());                   
-                       }
-                      
+                       }   
                        else{
                            Profesor profe = (Profesor)personaAsig.persona;
                           
                           StdOut.println(" Cantidad Mensajes enviados: " + profe.getCantMsjEnviados());
                           StdOut.println(" Cantidad Mensajes recibidos: " + profe.getCantMsjRecibidos()); 
                      }
-                    }
-                    StdOut.println("----------------------");
+                    
+
                     personaAsig.getNext();
-               }  
-           }  
-           actual.getNext();
-       }
+                    StdOut.println("----------------------");
+                   }
+            }
+        }                      
    } 
-   
    // Enviar un mensaje
    @Override 
    public void RF3() {
@@ -348,22 +290,25 @@ public class App implements IApp {
       Date fechaActual = new Date(); 
       DateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
       DateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+      int validador = 0;
       
       StdOut.println("-----ENVIAR UN MENSAJE----");
-      StdOut.println("Ingrese un alias valido: ");
+      StdOut.println("Ingrese un alias valido: " );
       String alias = StdIn.readString();
+      StdOut.println("Ingrese un alias valido: " + listaPersonas.getFirst().persona.getAlias());
       
       // Si existe el alias ingresado se procedera a preguntar el codigo de la asignatura
-      if(listaPersonas.buscar(alias)){
+      if(listaPersonas.buscar(alias) == true){
             StdOut.println("Ingrese el código de la asignatura del destinatario: ");
             String CodDestino = StdIn.readString();
             
             Iterator ite = listaAsignaturas.iterator();
             // Si concide el codigo dentro del listado se procedera a preguntar el destinatario       
             while(ite.hasNext()){
-               Asignatura a = (Asignatura) ite;
+               Asignatura a = (Asignatura) ite.next();
               
                if(a.getCodigo().equals(CodDestino)){
+                  validador++;
                    
                   NodoPersona curr = a.getListaPersonas().getFirst();
                   StdOut.println("Seleccione Destinatario:");
@@ -375,13 +320,15 @@ public class App implements IApp {
                   
                      StdOut.println("["+i+"] "+ curr.persona.getAlias());
                      curr = curr.getNext();
-                     i++;
-                     
+                     i++; 
                   }
                   
                   StdOut.println("Ingrese el alias del destinatario (Aprete 0 para cancelar el mensaje)");
                   String seleccionD = StdIn.readString();
+                  int verificadorMensaje = 2;
+                  
                   if(!seleccionD.equals(0) && listaPersonas.buscar(seleccionD)){
+                  do{    
                       StdOut.println("Ingrese asunto: ");
                       String asunto = StdIn.readString();
                       StdOut.println("Ingrese el mensaje: ");
@@ -390,20 +337,44 @@ public class App implements IApp {
                       String hora = formatoHora.format(fechaActual);
                       String fecha = formatoFecha.format(fechaActual);
                       Mensaje m = new Mensaje(asunto,mensaje,alias,seleccionD,hora,fecha);
-                      listaMensajes.ingresar(m);
-                           
+                      
+                      Persona Emisor = listaPersonas.buscarI(alias);
+                      Persona Destinatario = listaPersonas.buscarI(seleccionD);
+         
+                      // si el mensaje tiene menos de 100 caracteres
+                      if(mensaje.length() <= 100){
+                          listaMensajes.ingresar(m);    
+                          
+                          // se agrega uno al contador de mensajes recibidos,enviados segun sea el tipo de persona
+                          if(Emisor instanceof Profesor){     
+                             int msg = ((Profesor) Emisor).getCantMsjEnviados();
+                             ((Profesor) Emisor).setCantMsjEnviados(msg+1);
+                          }
+                          if(Emisor instanceof Alumno && Destinatario instanceof Profesor ){
+                              int msg = ((Alumno) Emisor).getCantMsjEnviadosProfe();
+                              ((Alumno) Emisor).setCantMsjEnviadosProfe(msg+1);
+                              int msgRe = ((Profesor) Destinatario).getCantMsjRecibidos();
+                              ((Profesor) Destinatario).setCantMsjRecibidos(msgRe+1);
+                          }
+                          StdOut.println("Mensaje enviado con éxito");
+                          StdOut.println("---------------------");
+                      }    
+                      else{
+                          StdOut.println("---SU MENSAJE TIENE MÁS DE 100 CARACTERES---");
+                          StdOut.println("Presione cualquier número para volver a intentar");
+                          StdOut.println("Presione [2] para salir.");
+                          verificadorMensaje = StdIn.readInt();
+                      }
+                      }while(verificadorMensaje != 2);
                   }
                   else{
                       StdOut.println("SE HA CANCELADO EL ENVIO DEL MENSAJE");
                       StdOut.println("---------------------");
-                      break;
-                  
+                      break;      
                   }     
-               }  
-              StdOut.println("El código ingresado no se encuentra en el listado");
-              StdOut.println("---------------------");
-              break;
-            
+               }         
+            } if(validador == 0){
+                StdOut.println("El código ingresado no se encuentra en el listado\n-----------------------");
             }
      }else{
           StdOut.println("EL ALIAS INGRESADO NO SE ENCUENTRA REGISTRADO"); 
@@ -417,58 +388,59 @@ public class App implements IApp {
        // ingresar a la lista de personas y tambien al .txt de inscripcion y persona
        StdOut.println("-----Ingresar Persona----");
        StdOut.println("----------------------------");
-       StdOut.println("-----Ingresar Asignatura----");
        StdOut.println("Ingrese la asignatura : ");
        String codasig = StdIn.readString();
        if(codasig.matches("[0-9]+") && codasig.length() > 2){
        
        StdOut.println("-----Ingresar Persona----");
-           
        StdOut.println("Ingrese un Rut con - : ");
        String rut = StdIn.readString();
        
        //validar rut
        boolean validacion = false;
        try {
-        rut =  rut.toUpperCase();
-        rut = rut.replace(".", "");
-        rut = rut.replace("-", "");
-        int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
-        char dv = rut.charAt(rut.length() - 1);
-        int m = 0, s = 1;
-        for (; rutAux != 0; rutAux /= 10) {
-        s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
-        }
-        
-        if (dv == (char) (s != 0 ? s + 47 : 75)) {
-        validacion = true;
-        }
- 
-        } catch (java.lang.NumberFormatException e) {
+           rut =  rut.toUpperCase();
+           rut = rut.replace(".", "");
+           rut = rut.replace("-", "");
+           int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+           char dv = rut.charAt(rut.length() - 1);
+           int m = 0, s = 1;
+           for (; rutAux != 0; rutAux /= 10) {
+              s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+           }
+           if (dv == (char) (s != 0 ? s + 47 : 75)) {
+              validacion = true;
+           }
+           } catch (java.lang.NumberFormatException e) {
         } catch (Exception e) {
         }
 
        if (validacion == true){
-       StdOut.println("Ingrese un Nombre valido: ");
+       StdOut.println("Ingrese un Nombre Valido: ");
        String nombre = StdIn.readString();
        
        //solo ingresar letras
        if(nombre.matches(".*[a-zA-Z]+.*[a-zA-Z]")){
-       StdOut.println("Ingrese un Apellido valido: ");
+       StdOut.println("Ingrese un Apellido Valido: ");
        String apellido = StdIn.readString();
-       
+             
        //solo ingresar letras
        if(apellido.matches(".*[a-zA-Z]+.*[a-zA-Z]"))
           {
        
-       StdOut.println("Ingrese un Correo valido: ");
+       StdOut.println("Ingrese un Correo Gmail (No puede empezar con un numero): ");
        String correo = StdIn.readString();
-       //verificador correo
-       if(correo.matches("[-\\w\\.]+@\\w+\\.\\w+")){
-           
+       String auxm = correo;
+       String[] pars = auxm.split("@");
+       auxm = (pars[0].trim()).substring(0, 1);
+       StdOut.println(auxm);
        
+       
+       //verificador correo
+       if((correo.matches("[-\\w\\.]+@gmail.com")&&(!auxm.matches("[0-9]+")))){       
        StdOut.println("Ingrese 1 si es profesor o 2 si es Alumno: ");
        String tipo = StdIn.readString();
+       
        if(tipo.equals("1")){
           tipo = "profesor"; 
           int cantm = 0; int cantasig = 0;
@@ -479,16 +451,16 @@ public class App implements IApp {
           
           Inscripcion ins = new Inscripcion(alias,codasig);
           listaPersonas.ingresaAlumno(rut, nombre, apellido, correo, tipo, cantm, cantasig);
-          listaInscripciones.ingresar(ins); //conseguir parte izq @
-          
+          listaInscripciones.ingresar(ins);
+         
           try
-            {   String filename = "personas.txt";
-                FileWriter fw = new FileWriter(filename,true); //the true will append the new data
+            {   String FILE1 = "personas.txt";
+                FileWriter fw = new FileWriter(FILE1,true);
                 fw.write("\r\n"+rut+"\\"+nombre+"\\"+
-                        apellido+"\\"+correo+"\\"+tipo+"\\"+cantm+"\\"+cantasig);//appends the string to the file
-                String filename2 = "inscripciones.txt";
-                FileWriter fw2 = new FileWriter(filename2,true); //the true will append the new data
-                fw2.write("\r\n"+alias+","+codasig);//appends the string to the file
+                        apellido+"\\"+correo+"\\"+tipo+"\\"+cantm+"\\"+cantasig);
+                String FILE2 = "inscripciones.txt";
+                FileWriter fw2 = new FileWriter(FILE2,true);
+                fw2.write("\r\n"+alias+","+codasig);
                 fw.close();
                 fw2.close();
             }
@@ -510,13 +482,13 @@ public class App implements IApp {
           listaInscripciones.ingresar(ins);
        
           try
-            {   String filename = "personas.txt";
-                FileWriter fw = new FileWriter(filename,true); //the true will append the new data
+            {   String FILE1 = "personas.txt";
+                FileWriter fw = new FileWriter(FILE1,true);
                 fw.write("\r\n"+rut+"\\"+nombre+"\\"+
-                        apellido+"\\"+correo+"\\"+tipo+"\\"+cantenv+"\\"+cantrec);//appends the string to the file
-                String filename2 = "inscripciones.txt";
-                FileWriter fw2 = new FileWriter(filename2,true); //the true will append the new data
-                fw2.write("\r\n"+alias+","+codasig);//appends the string to the file
+                        apellido+"\\"+correo+"\\"+tipo+"\\"+cantenv+"\\"+cantrec);
+                String FILE2 = "inscripciones.txt";
+                FileWriter fw2 = new FileWriter(FILE2,true);
+                fw2.write("\r\n"+alias+","+codasig);
                 fw.close();
                 fw2.close();
             }
@@ -524,60 +496,26 @@ public class App implements IApp {
             {System.err.println("IOException: " + ioe.getMessage());
             }
           
-         }else{StdOut.println("tipo no valido");
-        try{ String filename = "ErroresDeRegistro.txt";
-              FileWriter fw = new FileWriter(filename,true);
-              fw.write("\r\n"+"Ingreso Persona"+" Tipo "+
-                      tipo+"  tipo no valido (1 = Alumno // 2 = Profesor)");
-              fw.close();}
-              catch(IOException ioe)
-              {System.err.println("IOException: " + ioe.getMessage());}
+          }else{
+          StdOut.println("tipo no valido");
+          registroErrores.add(new RegistroError("Ingreso Persona","Tipo",tipo,"9"));//para el tipo
           }
-          
-          
-          }else{StdOut.println("Correo no valido");
-        try{ String filename = "ErroresDeRegistro.txt";
-                FileWriter fw = new FileWriter(filename,true);
-                fw.write("\r\n"+"Ingreso Persona"+" Correo "+
-                        correo+"  correo no valido");
-                fw.close();}
-                catch(IOException ioe)
-                {System.err.println("IOException: " + ioe.getMessage());}}//para el correo
-          }else{StdOut.println("Apellido no valido");
-        try{ String filename = "ErroresDeRegistro.txt";
-               FileWriter fw = new FileWriter(filename,true);
-               fw.write("\r\n"+"Ingreso Persona"+" Apellido "+
-                       apellido+"  Apellido no valido");
-               fw.close();}
-               catch(IOException ioe)
-               {System.err.println("IOException: " + ioe.getMessage());}}//para el apellido
-          }else{StdOut.println("Nombre no valido");
-        try{ String filename = "ErroresDeRegistro.txt";
-              FileWriter fw = new FileWriter(filename,true);
-              fw.write("\r\n"+"Ingreso Persona"+" Nombre "+
-                      nombre+"  Nombre no valido");
-              fw.close();}
-              catch(IOException ioe)
-              {System.err.println("IOException: " + ioe.getMessage());}}//para el nombre
-       }else{StdOut.println("Rut no valido");
-        try{ String filename = "ErroresDeRegistro.txt";
-             FileWriter fw = new FileWriter(filename,true);
-             fw.write("\r\n"+"Ingreso Persona"+" Rut "+
-                     rut+"  Rut no valido");
-             fw.close();}
-             catch(IOException ioe)
-             {System.err.println("IOException: " + ioe.getMessage());}}// para el rut
-   
-       }else{StdOut.println("Codigo Asignatura no valida");
-       try{ String filename = "ErroresDeRegistro.txt";
-            FileWriter fw = new FileWriter(filename,true);
-            fw.write("\r\n"+"Ingreso Persona"+" Codigo Asignatura "+
-                    codasig+"  Codigo Asignatura no valido");
-            fw.close();}
-            catch(IOException ioe)
-            {System.err.println("IOException: " + ioe.getMessage());}
-          }// para la asignatura
-   
+          }else{
+          StdOut.println("Correo no valido");
+          registroErrores.add(new RegistroError("Ingreso Correo","Correo",correo,"3"));}//para el correo
+          }else{
+          StdOut.println("Apellido no valido");
+          registroErrores.add(new RegistroError("Ingreso Apellido","Apellido",apellido,"7"));}//para el apellido
+          }else{
+          StdOut.println("Nombre no valido");
+          registroErrores.add(new RegistroError("Ingreso Nombre","Nombre",nombre,"6"));}//para el nombre
+          }else{
+          StdOut.println("Rut no valido");
+          registroErrores.add(new RegistroError("Ingreso Rut","Rut",rut,"1"));}// para el rut
+          }else{
+          StdOut.println("Codigo Asignatura no valida");
+          registroErrores.add(new RegistroError("Ingreso Asignatura","Asignatura",codasig,"5"));}// para la asignatura
+
    } 
    
    // Elimina una persona de una asignatura
@@ -605,7 +543,6 @@ public class App implements IApp {
                          while(curr != null && !curr.persona.getAlias().equals(alias)) {
                              curr = curr.getNext();
                          }
-                         
                          // Se crea la persona y solo se procedera a eliminarla si es alumno
                          Persona p = curr.getPersona();
                          if(p instanceof Alumno && listaInscripciones.verificacionCantRamos(alias)){
@@ -617,7 +554,6 @@ public class App implements IApp {
                              // Con esto, no estaría disponible para mandar mensajes al usar el RF1
                              a.getListaPersonas().eliminar(elim);      
                          }
-                     
                           listaPersonas.eliminar(alias);
                      }
                      else{
@@ -631,30 +567,29 @@ public class App implements IApp {
    @Override 
    public void RF6() {
        // buscar mensajes segun emisor y receptor
-      // pedir alias y eliminar la inscripcion
+       // pedir alias y eliminar la inscripcion
        StdOut.println("----------------------Registro de mensajes----------------------");
        StdOut.println("----------------------------------------------------------------");
        StdOut.println("Ingrese un alias: ");
        String alias = StdIn.readString();
        int salir = 0;
-       
        // Si lo encontro
        do{
-       if(listaPersonas.buscar(alias)){
+       if(listaPersonas.buscar(alias) == true){
                          
             StdOut.println("----------------------------------------------------------------");
             StdOut.println("Lista de mensajes enviados y recibidos por: "+alias);
             StdOut.println("----------------------------------------------------------------");
             StdOut.println("----------------------------------------------------------------");
-            
             //  Nodos creados para recorrer un nodo circular de un nexo
             NodoMensaje NodoFirst = listaMensajes.getFirst();
-            NodoMensaje curr = listaMensajes.getFirst().getNext();
+            if (NodoFirst.getNext() != null){
+            NodoMensaje curr = listaMensajes.getFirst().getNext();  
+           
             int cont = 0;
-            while( curr != NodoFirst ) {
-               curr = curr.getNext();
-               // Si el alias ingresado coincide con el parametro de emisor del objeto mensaje
-               if(curr.getMensaje().getEmisor().equals(alias)){
+            // si solo tiene un dato
+            if(NodoFirst != null && NodoFirst == curr){
+                  if(curr.getMensaje().getEmisor().equals(alias)){
                    cont++;
                    StdOut.println("Mensaje " + cont);
                    StdOut.println("----------------------------------------------------------------");
@@ -664,7 +599,6 @@ public class App implements IApp {
                    StdOut.println("Receptor: " + curr.getMensaje().getDestinatario() + "\n\n");
                    StdOut.println("Asunto: " + curr.getMensaje().getAsunto()+ "\n");
                    StdOut.println("Mensaje: " + curr.getMensaje().getMensaje()+ "\n");   
-                  
                }
                // Si el alias ingresado coincide con el parametro de Destinatario del objeto mensaje
                if(curr.getMensaje().getDestinatario().equals(alias)){
@@ -676,32 +610,54 @@ public class App implements IApp {
                    StdOut.println("Emisor: " + curr.getMensaje().getEmisor());
                    StdOut.println("Receptor: " + curr.getMensaje().getDestinatario() + "\n\n");
                    StdOut.println("Asunto: " + curr.getMensaje().getAsunto()+ "\n");
-                   StdOut.println("Mensaje: " + curr.getMensaje().getMensaje()+ "\n");      
-                   
+                   StdOut.println("Mensaje: " + curr.getMensaje().getMensaje()+ "\n");           
                } 
-            }  
-            if (cont == 0){
-                StdOut.println("----------No hay Mensajes Asociados de: "+alias +"--------" );
-
+  
+            }
+            // si tiene mas de un dato
+            else if(NodoFirst != null) {
+                
+               while( NodoFirst.getNext() != NodoFirst ) {
+               NodoFirst = curr.getNext();
+               // Si el alias ingresado coincide con el parametro de emisor del objeto mensaje
+               if(curr.getMensaje().getEmisor().equals(alias)){
+                   cont++;
+                   StdOut.println("Mensaje " + cont);
+                   StdOut.println("----------------------------------------------------------------");
+                   StdOut.println("Fecha: " + curr.getMensaje().getFecha());
+                   StdOut.println("Hora: " + curr.getMensaje().getHora() + "\n\n");
+                   StdOut.println("Emisor: " + curr.getMensaje().getEmisor());
+                   StdOut.println("Receptor: " + curr.getMensaje().getDestinatario() + "\n\n");
+                   StdOut.println("Asunto: " + curr.getMensaje().getAsunto()+ "\n");
+                   StdOut.println("Mensaje: " + curr.getMensaje().getMensaje()+ "\n");   
+               }
+               // Si el alias ingresado coincide con el parametro de Destinatario del objeto mensaje
+               if(curr.getMensaje().getDestinatario().equals(alias)){
+                   cont++;
+                   StdOut.println("Mensaje " + cont);
+                   StdOut.println("----------------------------------------------------------------");
+                   StdOut.println("Fecha: " + curr.getMensaje().getFecha());
+                   StdOut.println("Hora: " + curr.getMensaje().getHora() + "\n\n");
+                   StdOut.println("Emisor: " + curr.getMensaje().getEmisor());
+                   StdOut.println("Receptor: " + curr.getMensaje().getDestinatario() + "\n\n");
+                   StdOut.println("Asunto: " + curr.getMensaje().getAsunto()+ "\n");
+                   StdOut.println("Mensaje: " + curr.getMensaje().getMensaje()+ "\n");           
+               } 
+              }  
+            }
+ 
+           if (cont == 0){
+                StdOut.println("----------No hay Mensajes Asociados de: "+alias +"--------\n" );
+            }
+            }else{
+                StdOut.println("[1] Volver a ingresar alias de una persona");
+                StdOut.println("[2] Cancelar/Salir");
+                salir = StdIn.readInt();
             }
         }
-       // Si no lo encontro, se pregunta si quiere realizar de nuevo la operación, se saldra si ingresa un 2.
-       else{
-           StdOut.println("[1] Volver a ingresar alias de una persona");
-           StdOut.println("[2] Cancelar/Salir");
-           salir = StdIn.readInt();
-           }
         }while(salir != 2);
-       
-   }     
+       // Si no lo encontro, se pregunta si quiere realizar de nuevo la operación, se saldra si ingresa un 2.
     
-}
- 
-    
-
-
-
-    
-    
-    
+      }
+}       
 

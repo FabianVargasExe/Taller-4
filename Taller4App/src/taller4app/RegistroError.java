@@ -4,7 +4,6 @@
 package taller4app;
 
 
-
 public class RegistroError {
     
     private String Categoria;

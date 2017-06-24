@@ -8,10 +8,6 @@ import ucn.StdOut;
 
 public class Taller4App {
 
-
-
-
-
  public static void main(String[] args) throws IOException  {
      
     App app = new App();
@@ -30,9 +26,7 @@ public class Taller4App {
     StdOut.println(" (5) - RF5" );
     StdOut.println(" (6) - RF6" );
     StdOut.println(" (7) - Salir. " );    
-    
-
-            
+        
     
     int op;
         do{  

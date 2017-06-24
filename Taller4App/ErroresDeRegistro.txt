@@ -1,0 +1,25 @@
+-------------------------------------------------------------
+                     Errores de Registro                   
+-------------------------------------------------------------
+
+ Categoria         Campo no Valido       Valor campo        Error encontrado
+-------------------------------------------------------------
+Persona        Rut        1354o123-4        1        
+Persona        Rut        asjdslkjsa        1        
+Persona        Correo        furioso014@outlook.com        3        
+Persona        Rut        1395T984-1        1        
+Persona        Rut        hfdhfdfdfh        1        
+Persona        Correo        cMendez@hotmail.com        3        
+Persona        Correo        elcoqueto@com        3        
+Persona        Rut        hola-k        1        
+Persona        Rut        23901061-k        1        
+Persona        Correo        allmight@gma.com        3        
+Persona        Rut        23901061-k        1        
+Persona        Correo        sCastro@hotmail.com        3        
+Persona        Correo        ggprogra@il.com        3        
+Persona        Rut        14546630-k        1        
+Persona        Correo        JC125@m        3        
+Persona        Rut        1069op57-8        1        
+Persona        Correo        CataA@mail.com        3        
+Persona        Correo        Dani24@gma.com        3        
+Persona        Rut        229tt149-0        1        

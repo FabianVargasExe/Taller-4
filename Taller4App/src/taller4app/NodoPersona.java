@@ -38,10 +38,14 @@ public class NodoPersona {
     public double CalcularNota(int CantMsjRecibidos, int CantMsjEnviados){
         float X = ((CantMsjEnviados)/(CantMsjRecibidos))*100;
         if(X<33){
-        return 2.5;}
+           return 2.5;
+        }
         if(X>66){
-        return 7.0;}
-        else{return 5.0;}  
+           return 7.0;
+        }
+        else{
+            return 5.0;
+        }  
     }
     
 }
