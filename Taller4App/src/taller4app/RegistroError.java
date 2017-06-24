@@ -20,18 +20,30 @@ public class RegistroError {
     }
     public String errorEncontrato(){
         
-        if (tipo.equals(1)){
+        if (tipo.equals("1")){
             tipo = "El rut no es valido";
         }
-        if (tipo.equals(2)){
+        if (tipo.equals("2")){
             tipo = "El codigo no es numerico";
         }
-        if (tipo.equals(3)){
+        if (tipo.equals("3")){
             tipo = "El Correo no es valido";
         }
-        if (tipo.equals(4)){
+        if (tipo.equals("4")){
             tipo = "El rut no es valido (No es numerico)";
-        }   
+        }
+        if (tipo.equals("5")){
+            tipo = "El codigo de asig. no es valido";
+        }
+        if (tipo.equals("6")){
+            tipo = "El nombre no es valido (contiene numeros)";
+        }
+        if (tipo.equals("7")){
+            tipo = "El apellido no es valido (contiene numeros)";
+        }
+        if (tipo.equals("9")){
+            tipo = "El tipo no es valido (1 = Alum // 2 = Prof)";
+        }
         return tipo;
     }
 

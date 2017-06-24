@@ -4,22 +4,22 @@
 
  Categoria         Campo no Valido       Valor campo        Error encontrado
 -------------------------------------------------------------
-Persona        Rut        1354o123-4        1        
-Persona        Rut        asjdslkjsa        1        
-Persona        Correo        furioso014@outlook.com        3        
-Persona        Rut        1395T984-1        1        
-Persona        Rut        hfdhfdfdfh        1        
-Persona        Correo        cMendez@hotmail.com        3        
-Persona        Correo        elcoqueto@com        3        
-Persona        Rut        hola-k        1        
-Persona        Rut        23901061-k        1        
-Persona        Correo        allmight@gma.com        3        
-Persona        Rut        23901061-k        1        
-Persona        Correo        sCastro@hotmail.com        3        
-Persona        Correo        ggprogra@il.com        3        
-Persona        Rut        14546630-k        1        
-Persona        Correo        JC125@m        3        
-Persona        Rut        1069op57-8        1        
-Persona        Correo        CataA@mail.com        3        
-Persona        Correo        Dani24@gma.com        3        
-Persona        Rut        229tt149-0        1        
+Persona              Rut              1354o123-4              El rut no es valido            
+Persona              Rut              asjdslkjsa              El rut no es valido            
+Persona              Correo              furioso014@outlook.com              El Correo no es valido            
+Persona              Rut              1395T984-1              El rut no es valido            
+Persona              Rut              hfdhfdfdfh              El rut no es valido            
+Persona              Correo              cMendez@hotmail.com              El Correo no es valido            
+Persona              Correo              elcoqueto@com              El Correo no es valido            
+Persona              Rut              hola-k              El rut no es valido            
+Persona              Rut              23901061-k              El rut no es valido            
+Persona              Correo              allmight@gma.com              El Correo no es valido            
+Persona              Rut              23901061-k              El rut no es valido            
+Persona              Correo              sCastro@hotmail.com              El Correo no es valido            
+Persona              Correo              ggprogra@il.com              El Correo no es valido            
+Persona              Rut              14546630-k              El rut no es valido            
+Persona              Correo              JC125@m              El Correo no es valido            
+Persona              Rut              1069op57-8              El rut no es valido            
+Persona              Correo              CataA@mail.com              El Correo no es valido            
+Persona              Correo              Dani24@gma.com              El Correo no es valido            
+Persona              Rut              229tt149-0              El rut no es valido            

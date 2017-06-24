@@ -36,12 +36,11 @@ public class App implements IApp {
         listaPersonas = new ListaPersonas();
         registroErrores = new LinkedList();
         listaMensajes = new ListaMensajes();
-        
+
     }
 
    // Método de lectura de los archivos .txt
 
-    
     @Override 
     public void leerAsignaturas() {
        
@@ -107,21 +106,14 @@ public class App implements IApp {
  
                 // entrega una cadena a partir de @
                 
-                String Dominio =  Correo.substring(0,n);
-                
                 // Entrega el rut sin el digito verificador
                 String RutSinDigito = Rut.substring(0, Rut.length()-2);
-                   
-              //  Long.parseLong(Dominio);
-                
-                // si esta bien se ingresa
-                
+
                 // verificar primero de que sean solo numeros
                 if ((!RutSinDigito.matches("[0-9]+"))||(!ultimoCaracter.matches("[0-9]+"))){
                     registroErrores.add(new RegistroError("Persona","Rut",Rut,"1"));
                     ValidadorIngreso++;
-                }
-                     
+                }   
                 // Validador Dominio Mail, si no coincide se ingresa a la lista de registro de errores
              
              String auxm = Correo;
@@ -214,10 +206,10 @@ public class App implements IApp {
              
             RegistroError re = (RegistroError) ite.next();
           
-            pw.print(re.getCategoria() + "        ");
-            pw.print(re.getCampo() + "        ");
-            pw.print(re.getValorCampo() + "        ");  
-            pw.print(re.errorEncontrato() + "        ");
+            pw.print(re.getCategoria() + "              ");
+            pw.print(re.getCampo() + "              ");
+            pw.print(re.getValorCampo() + "              ");  
+            pw.print(re.errorEncontrato() + "            ");
 
             pw.println();
             
